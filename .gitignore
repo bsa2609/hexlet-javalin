@@ -7,8 +7,8 @@ build/
 ### IntelliJ IDEA ###
 .idea/
 .idea
-.jte-classes/
-.jte-classes
+jte-classes/
+jte-classes
 *.iws
 *.iml
 *.ipr
