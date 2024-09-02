@@ -1,19 +1,25 @@
 package org.example.hexlet;
 
+import gg.jte.Content;
+import gg.jte.TemplateOutput;
 import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
+import org.example.hexlet.dto.Page;
 import org.example.hexlet.dto.courses.CoursesPage;
+import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
+import org.example.hexlet.model.User;
 import org.example.hexlet.dto.courses.CoursePage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelloWorld {
     public static List<Course> courses;
+    public static List<User> users;
 
     public static void main(String[] args) {
         // Создаем приложение
@@ -22,14 +28,23 @@ public class HelloWorld {
             config.fileRenderer(new JavalinJte());
         });
 
-        courses = getCourses();
+        courses = Data.getCourses();
+        users = Data.getUsers();
 
         // Описываем, что загрузится по адресу /
         //app.get("/", ctx -> ctx.result("Hello World"));
-        app.get("/", ctx -> ctx.render("index.jte"));
+        app.get("/", ctx -> ctx.render("layout/page.jte",
+                model("page", new Page(), "footer", (Content) output ->
+                        output.writeContent("<p>You are currently viewing the main page!</p>"))
+                ));
 
-        app.get("/users", ctx -> ctx.result("GET /users"));
-        app.post("/users", ctx -> ctx.result("POST /users"));
+        //app.get("/users", ctx -> ctx.result("GET /users"));
+        //app.post("/users", ctx -> ctx.result("POST /users"));
+
+        app.get("/users", ctx -> {
+            var page = new UsersPage(users);
+            ctx.render("users/index.jte", model("usersPage", page));
+        });
 
         app.get("/hello", ctx -> {
             var name = ctx.queryParamAsClass("name", String.class).getOrDefault("World");
@@ -41,7 +56,7 @@ public class HelloWorld {
         app.get("/courses", ctx -> {
             var header = "Курсы по программированию";
             var page = new CoursesPage(courses, header);
-            ctx.render("courses/index.jte", model("page", page));
+            ctx.render("courses/index.jte", model("coursesPage", page));
         });
 
         app.get("/courses/{id}", ctx -> {
@@ -54,7 +69,7 @@ public class HelloWorld {
             }
 
             var course = courses.stream()
-                    .filter(c -> c.getId() == id)
+                    .filter(c -> c.getId().equals(id))
                     .findFirst()
                     .orElseThrow(() -> new NotFoundResponse("Course id = " + id + " not found"));
 
@@ -90,26 +105,5 @@ public class HelloWorld {
         });
 
         app.start(7070); // Стартуем веб-сервер
-    }
-
-    public static List<Course> getCourses() {
-        List<Course> courses = new ArrayList<>();
-
-        Course course1 = new Course("java", "Изучите основы java вместе с Хекслет");
-        course1.setId(1L);
-
-        courses.add(course1);
-
-        Course course2 = new Course("php", "Станьте профессионалом php за пол года");
-        course2.setId(2L);
-
-        courses.add(course2);
-
-        Course course3 = new Course("js", "js всего за один месяц, и вы - лучший");
-        course3.setId(2L);
-
-        courses.add(course3);
-
-        return courses;
     }
 }
