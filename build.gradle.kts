@@ -36,6 +36,10 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.34")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.34")
 
+    implementation("org.apache.commons:commons-text:1.12.0")
+
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1")
+
 }
 
 tasks.test {

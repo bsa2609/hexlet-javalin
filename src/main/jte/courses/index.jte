@@ -5,6 +5,14 @@
 @template.layout.page(
 page = new Page(),
 content = @`
+
+    <form action="/courses" method="get">
+        <input type="search" name="term" value="${coursesPage.getTerm()}" />
+        <input type="submit" value="Search" />
+    </form>
+
+    <div><a href="courses/build">New course</a></div>
+
     @for(var course : coursesPage.getCourses())
         <div>${course.getName()}</div>
     @endfor

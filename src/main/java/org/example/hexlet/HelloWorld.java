@@ -8,19 +8,24 @@ import io.javalin.rendering.template.JavalinJte;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
+import org.apache.commons.text.StringEscapeUtils;
+
+import org.example.hexlet.repository.CourseRepository;
+import org.example.hexlet.repository.UserRepository;
+import org.owasp.html.HtmlPolicyBuilder;
+
 import org.example.hexlet.dto.Page;
 import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
 import org.example.hexlet.dto.courses.CoursePage;
+import org.owasp.html.PolicyFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelloWorld {
-    public static List<Course> courses;
-    public static List<User> users;
-
     public static void main(String[] args) {
         // Создаем приложение
         var app = Javalin.create(config -> {
@@ -28,8 +33,8 @@ public class HelloWorld {
             config.fileRenderer(new JavalinJte());
         });
 
-        courses = Data.getCourses();
-        users = Data.getUsers();
+        Data.createCourses();
+        Data.createUsers();
 
         // Описываем, что загрузится по адресу /
         //app.get("/", ctx -> ctx.result("Hello World"));
@@ -42,8 +47,36 @@ public class HelloWorld {
         //app.post("/users", ctx -> ctx.result("POST /users"));
 
         app.get("/users", ctx -> {
-            var page = new UsersPage(users);
+            var page = new UsersPage(UserRepository.getEntities());
             ctx.render("users/index.jte", model("usersPage", page));
+        });
+
+        app.post("/users", ctx -> {
+            var name = ctx.formParam("name").trim();
+            var email = ctx.formParam("email").trim().toLowerCase();
+            var password = ctx.formParam("password");
+            var passwordConfirmation = ctx.formParam("passwordConfirmation");
+
+            var user = new User(name, email, password);
+            UserRepository.save(user);
+            ctx.redirect("/users");
+        });
+
+        app.get("/users/build", ctx -> {
+            ctx.render("users/build.jte");
+        });
+
+        app.post("/courses", ctx -> {
+            var name = ctx.formParam("name").trim().toLowerCase();
+            var description = ctx.formParam("description").trim();
+
+            var course = new Course(name, description);
+            CourseRepository.save(course);
+            ctx.redirect("/courses");
+        });
+
+        app.get("/courses/build", ctx -> {
+            ctx.render("courses/build.jte");
         });
 
         app.get("/hello", ctx -> {
@@ -54,8 +87,18 @@ public class HelloWorld {
         });
 
         app.get("/courses", ctx -> {
+            var term = ctx.queryParam("term");
             var header = "Курсы по программированию";
-            var page = new CoursesPage(courses, header);
+
+            List<Course> filteredCourses;
+
+            if (term == null || term.isBlank()) {
+                filteredCourses = CourseRepository.getEntities();
+            } else {
+                filteredCourses = CourseRepository.search(term);
+            }
+
+            var page = new CoursesPage(filteredCourses, header, term);
             ctx.render("courses/index.jte", model("coursesPage", page));
         });
 
@@ -68,7 +111,7 @@ public class HelloWorld {
                 throw new NotFoundResponse("Course id = " + ctx.pathParam("id") + " not Long type");
             }
 
-            var course = courses.stream()
+            var course = CourseRepository.getEntities().stream()
                     .filter(c -> c.getId().equals(id))
                     .findFirst()
                     .orElseThrow(() -> new NotFoundResponse("Course id = " + id + " not found"));
@@ -79,6 +122,7 @@ public class HelloWorld {
 
         app.get("/users/all", ctx -> ctx.result("It's GET request on ALL users"));
         app.get("/users/{id}", ctx -> {
+            /*
             var id = ctx.pathParamAsClass("id", Long.class).getOrDefault(0L);
 
             if (id == 22L) {
@@ -86,6 +130,21 @@ public class HelloWorld {
             }
 
             ctx.result("User ID: " + id);
+            */
+
+            var id = ctx.pathParam("id");
+            //var escapedId = StringEscapeUtils.escapeHtml4(id);
+
+            PolicyFactory policy = new HtmlPolicyBuilder()
+                    .allowElements("a")
+                    .allowUrlProtocols("https")
+                    .allowAttributes("href").onElements("a")
+                    .requireRelNofollowOnLinks()
+                    .toFactory();
+            String safeHTML = policy.sanitize(id);
+
+            ctx.contentType("text/html");
+            ctx.result(safeHTML);
         });
 
         app.get("/users/{userId}/posts/{postId}", ctx -> {

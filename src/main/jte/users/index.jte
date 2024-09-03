@@ -5,6 +5,7 @@
 @template.layout.page(
 page = new Page(),
 content = @`
+    <div><a href="users/build">New user</a></div>
     @for(var user : usersPage.getUsers())
         <div>${user.getName()}</div>
     @endfor
