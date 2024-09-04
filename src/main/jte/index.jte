@@ -1,7 +1,9 @@
+@import org.example.hexlet.dto.BasePage
 @import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.MainPage
 @import org.example.hexlet.util.NamedRoutes
 @param MainPage page
+@param BasePage basePage = null
 
 @template.layout.page(
 page = new Page(),

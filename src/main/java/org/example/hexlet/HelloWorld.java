@@ -25,13 +25,13 @@ public class HelloWorld {
         app.get(NamedRoutes.helloPath(), AppController::hello);
 
         app.get(NamedRoutes.usersPath(), UsersController::index);
-        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
         app.get(NamedRoutes.buildUserPath(), UsersController::build);
+        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
         app.post(NamedRoutes.usersPath(), UsersController::create);
 
         app.get(NamedRoutes.coursesPath(), CoursesController::index);
-        app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
         app.get(NamedRoutes.buildCoursePath(), CoursesController::build);
+        app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
         app.post(NamedRoutes.coursesPath(), CoursesController::create);
 
         app.get(NamedRoutes.buildSessionsPath(), SessionsController::build);

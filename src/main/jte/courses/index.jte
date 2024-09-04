@@ -5,6 +5,7 @@
 
 @template.layout.page(
 page = new Page(),
+basePage = coursesPage,
 content = @`
     <div style="margin-bottom: 10px"><a href="${NamedRoutes.buildCoursePath()}">Создать курс</a></div>
 
@@ -42,7 +43,7 @@ header = @`
             <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="${NamedRoutes.coursesPath()}">Course</a>
+            <a class="nav-link active" href="${NamedRoutes.coursesPath()}">Courses</a>
         </li>
     </ul>
 

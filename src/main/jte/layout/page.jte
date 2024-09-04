@@ -1,8 +1,10 @@
+@import org.example.hexlet.dto.BasePage
 @import org.example.hexlet.dto.Page
 @import gg.jte.Content
 @import org.example.hexlet.util.NamedRoutes
 
 @param Page page
+@param BasePage basePage = null
 @param Content content
 @param Content footer = null
 @param Content header = null
@@ -24,6 +26,11 @@
         @if (header != null)
             <div class="header">
                 ${header}
+            </div>
+        @endif
+        @if(basePage != null && basePage.getFlash() != null)
+            <div class="alert alert-success" role="alert">
+                ${basePage.getFlash()}
             </div>
         @endif
         <div class="content">
