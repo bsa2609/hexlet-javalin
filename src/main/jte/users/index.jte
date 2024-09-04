@@ -1,7 +1,7 @@
 @import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.users.UsersPage
 @import org.example.hexlet.util.NamedRoutes
-@param UsersPage usersPage
+@param UsersPage page
 
 @template.layout.page(
 page = new Page(),
@@ -17,7 +17,7 @@ content = @`
             </tr>
         </thead>
         <tbody>
-            @for(var user : usersPage.getUsers())
+            @for(var user : page.getUsers())
                 <tr>
                     <td><a href="${NamedRoutes.userPath(user.getId())}">${user.getId()}</a></td>
                     <td><a href="${NamedRoutes.userPath(user.getId())}">${user.getName()}</a></td>

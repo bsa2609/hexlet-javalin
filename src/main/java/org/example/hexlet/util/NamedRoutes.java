@@ -1,8 +1,8 @@
 package org.example.hexlet.util;
 
 public class NamedRoutes {
-    private static final String USERS_PATH = "/u";
-    private static final String COURSES_PATH = "/c";
+    private static final String USERS_PATH = "/users";
+    private static final String COURSES_PATH = "/courses";
 
     public static String usersPath() {
         return USERS_PATH;
