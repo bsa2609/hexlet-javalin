@@ -6,9 +6,25 @@
 page = new Page(),
 content = @`
     <div><a href="users/build">New user</a></div>
-    @for(var user : usersPage.getUsers())
-        <div>${user.getName()}</div>
-    @endfor
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">e-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(var user : usersPage.getUsers())
+                <tr>
+                    <td>${user.getId()}</td>
+                    <td>${user.getName()}</td>
+                    <td>${user.getEmail()}</td>
+                </tr>
+            @endfor
+        </tbody>
+    </table>
 `
 ,
 footer = @`

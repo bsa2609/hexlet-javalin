@@ -13,9 +13,25 @@ content = @`
 
     <div><a href="courses/build">New course</a></div>
 
-    @for(var course : coursesPage.getCourses())
-        <div>${course.getName()}</div>
-    @endfor
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(var course : coursesPage.getCourses())
+                <tr>
+                    <td>${course.getId()}</td>
+                    <td>${course.getName()}</td>
+                    <td>${course.getDescription()}</td>
+                </tr>
+            @endfor
+        </tbody>
+    </table>
+
 `
 ,
 footer = @`

@@ -40,6 +40,8 @@ dependencies {
 
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1")
 
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+
 }
 
 tasks.test {
