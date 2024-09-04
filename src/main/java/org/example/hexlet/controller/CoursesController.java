@@ -5,6 +5,7 @@ import static io.javalin.rendering.template.TemplateUtil.model;
 import io.javalin.validation.ValidationException;
 import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.model.Course;
+import org.example.hexlet.repository.CarRepository;
 import org.example.hexlet.repository.CourseRepository;
 import org.example.hexlet.util.NamedRoutes;
 import org.example.hexlet.dto.courses.CoursePage;
@@ -13,10 +14,11 @@ import org.example.hexlet.dto.courses.CoursesPage;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class CoursesController {
-    public static void index(Context ctx) {
+    public static void index(Context ctx) throws SQLException {
         var term = ctx.queryParam("term");
         var header = "Курсы по программированию";
 
@@ -30,10 +32,11 @@ public class CoursesController {
 
         var page = new CoursesPage(filteredCourses, header, term);
         page.setFlash(ctx.consumeSessionAttribute("flashCourses"));
-        ctx.render("courses/index.jte", model("coursesPage", page));
+        page.setCurrentPage("Courses");
+        ctx.render("courses/index.jte", model("page", page));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws SQLException {
         final Long id;
 
         try {
@@ -42,10 +45,8 @@ public class CoursesController {
             throw new NotFoundResponse("Course id = " + ctx.pathParam("id") + " not Long type, course not found");
         }
 
-        var course = CourseRepository.getEntities().stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundResponse("Course id = " + id + " not found"));
+        var course = CourseRepository.find(id)
+                .orElseThrow(() -> new NotFoundResponse("Course with id = " + id + " not found"));
 
         var page = new CoursePage(course);
         ctx.render("courses/show.jte", model("page", page));
@@ -56,7 +57,7 @@ public class CoursesController {
         ctx.render("courses/build.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws SQLException {
         try {
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() > 2, "Название курса должно быть длиннее 2 символов")

@@ -42,6 +42,10 @@ dependencies {
 
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 
+    implementation("com.h2database:h2:2.2.220")
+    implementation("com.zaxxer:HikariCP:5.0.1")
+
+
 }
 
 tasks.test {

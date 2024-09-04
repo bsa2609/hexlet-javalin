@@ -4,6 +4,7 @@ public class NamedRoutes {
     private static final String USERS_PATH = "/users";
     private static final String COURSES_PATH = "/courses";
     private static final String SESSION_PATH = "/sessions";
+    private static final String CARS_PATH = "/cars";
 
     public static String rootPath() {
         return "/";
@@ -52,5 +53,21 @@ public class NamedRoutes {
 
     public static String buildSessionsPath() {
         return SESSION_PATH + "/build";
+    }
+
+    public static String carsPath() {
+        return CARS_PATH;
+    }
+
+    public static String buildCarPath() {
+        return CARS_PATH + "/build";
+    }
+
+    public static String carPath(Long id) {
+        return carPath(String.valueOf(id));
+    }
+
+    public static String carPath(String id) {
+        return CARS_PATH + "/" + id;
     }
 }

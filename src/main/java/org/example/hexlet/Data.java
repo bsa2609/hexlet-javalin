@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data {
-    public static void createCourses() {
+    public static void createCourses() throws Exception {
         Course course1 = new Course("java", "Изучите основы java вместе с Хекслет");
         CourseRepository.save(course1);
 

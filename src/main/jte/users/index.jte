@@ -1,10 +1,9 @@
-@import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.users.UsersPage
 @import org.example.hexlet.util.NamedRoutes
 @param UsersPage page
 
 @template.layout.page(
-page = new Page(),
+page = page,
 content = @`
     <div style="margin-bottom: 10px"><a href="${NamedRoutes.buildUserPath()}">Создать пользователя</a></div>
 
@@ -26,20 +25,6 @@ content = @`
             @endfor
         </tbody>
     </table>
-`
-,
-header = @`
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/">Main</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="${NamedRoutes.usersPath()}">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="${NamedRoutes.coursesPath()}">Courses</a>
-        </li>
-    </ul>
 `
 ,
 footer = @`

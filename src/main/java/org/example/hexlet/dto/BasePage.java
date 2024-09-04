@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class BasePage {
     private String flash;
+    private String title;
+    private String currentPage;
 }

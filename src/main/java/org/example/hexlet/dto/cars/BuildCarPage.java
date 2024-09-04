@@ -1,4 +1,4 @@
-package org.example.hexlet.dto.courses;
+package org.example.hexlet.dto.cars;
 
 import io.javalin.validation.ValidationError;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,8 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class BuildCoursePage extends BasePage {
-    private String name;
-    private String description;
+public class BuildCarPage extends BasePage {
+    private String make;
+    private String model;
     private Map<String, List<ValidationError<Object>>> errors;
 }

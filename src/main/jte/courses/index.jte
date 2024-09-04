@@ -1,16 +1,14 @@
-@import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.courses.CoursesPage
 @import org.example.hexlet.util.NamedRoutes
-@param CoursesPage coursesPage
+@param CoursesPage page
 
 @template.layout.page(
-page = new Page(),
-basePage = coursesPage,
+page = page,
 content = @`
     <div style="margin-bottom: 10px"><a href="${NamedRoutes.buildCoursePath()}">Создать курс</a></div>
 
     <form action="${NamedRoutes.coursesPath()}" method="get">
-        <input type="search" name="term" value="${coursesPage.getTerm()}" />
+        <input type="search" name="term" value="${page.getTerm() != null ? page.getTerm() : ""}" />
         <input type="submit" value="Search" />
     </form>
 
@@ -23,7 +21,7 @@ content = @`
             </tr>
         </thead>
         <tbody>
-            @for(var course : coursesPage.getCourses())
+            @for(var course : page.getCourses())
                 <tr>
                     <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getId()}</a></td>
                     <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getName()}</a></td>
@@ -32,21 +30,6 @@ content = @`
             @endfor
         </tbody>
     </table>
-`
-,
-header = @`
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/">Main</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="${NamedRoutes.coursesPath()}">Courses</a>
-        </li>
-    </ul>
-
 `
 ,
 footer = @`

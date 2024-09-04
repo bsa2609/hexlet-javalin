@@ -17,6 +17,7 @@ public class UsersController {
     public static void index(Context ctx) {
         var users = UserRepository.getEntities();
         var page = new UsersPage(users);
+        page.setCurrentPage("Users");
         ctx.render("users/index.jte", model("page", page));
     }
 
@@ -35,7 +36,7 @@ public class UsersController {
                 .orElseThrow(() -> new NotFoundResponse("User id = " + id + " not found"));
 
         var page = new UserPage(user);
-        ctx.render("users/show.jte", model("userPage", page));
+        ctx.render("users/show.jte", model("page", page));
     }
 
     public static void build(Context ctx) {

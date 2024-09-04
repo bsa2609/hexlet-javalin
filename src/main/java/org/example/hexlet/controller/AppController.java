@@ -11,6 +11,7 @@ public class AppController {
         String currentUser = ctx.sessionAttribute("currentUser");
 
         var page = new MainPage(visited, currentUser);
+        page.setCurrentPage("Main");
         ctx.render("index.jte", model("page", page));
         ctx.cookie("visited", String.valueOf(true));
     }

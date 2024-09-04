@@ -1,33 +1,15 @@
-@import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.users.UserPage
-@import org.example.hexlet.util.NamedRoutes
-@import java.time.format.DateTimeFormatter
-@param UserPage userPage
+@param UserPage page
 
 @template.layout.page(
-page = new Page(),
+page = page,
 content = @`
-    <h1>${userPage.getUser().getName()}</h1>
-    <p>Эл. адрес: ${userPage.getUser().getEmail()}</p>
-    <p>На сайте с: ${String.valueOf(userPage.getUser().getCreatedAt().toLocalDate()) + " "
-        + userPage.getUser().getCreatedAt().getHour() + ":"
-        + userPage.getUser().getCreatedAt().getMinute() + ":"
-        + userPage.getUser().getCreatedAt().getSecond()}</p>
-`
-,
-header = @`
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/">Main</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="${NamedRoutes.coursesPath()}">Courses</a>
-        </li>
-    </ul>
-
+    <h1>${page.getUser().getName()}</h1>
+    <p>Эл. адрес: ${page.getUser().getEmail()}</p>
+    <p>На сайте с: ${String.valueOf(page.getUser().getCreatedAt().toLocalDate()) + " "
+        + page.getUser().getCreatedAt().getHour() + ":"
+        + page.getUser().getCreatedAt().getMinute() + ":"
+        + page.getUser().getCreatedAt().getSecond()}</p>
 `
 ,
 footer = @`

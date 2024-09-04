@@ -1,11 +1,11 @@
-@import org.example.hexlet.dto.courses.CoursePage
-@param CoursePage page
+@import org.example.hexlet.dto.cars.CarPage
+@param CarPage page
 
 @template.layout.page(
 page = page,
 content = @`
-    <h1>${page.getCourse().getName()}</h1>
-    <p>${page.getCourse().getDescription()}</p>
+    <h1>${page.getCar().getMake()}</h1>
+    <p>${page.getCar().getModel()}</p>
 `
 ,
 footer = @`
