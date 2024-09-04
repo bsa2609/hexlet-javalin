@@ -1,5 +1,6 @@
 @import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.users.UserPage
+@import org.example.hexlet.util.NamedRoutes
 @import java.time.format.DateTimeFormatter
 @param UserPage userPage
 
@@ -12,6 +13,21 @@ content = @`
         + userPage.getUser().getCreatedAt().getHour() + ":"
         + userPage.getUser().getCreatedAt().getMinute() + ":"
         + userPage.getUser().getCreatedAt().getSecond()}</p>
+`
+,
+header = @`
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Main</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${NamedRoutes.coursesPath()}">Course</a>
+        </li>
+    </ul>
+
 `
 ,
 footer = @`

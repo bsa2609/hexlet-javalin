@@ -3,6 +3,7 @@ package org.example.hexlet.util;
 public class NamedRoutes {
     private static final String USERS_PATH = "/users";
     private static final String COURSES_PATH = "/courses";
+    private static final String SESSION_PATH = "/sessions";
 
     public static String rootPath() {
         return "/";
@@ -43,5 +44,13 @@ public class NamedRoutes {
 
     public static String coursePath(String id) {
         return COURSES_PATH + "/" + id;
+    }
+
+    public static String sessionsPath() {
+        return SESSION_PATH;
+    }
+
+    public static String buildSessionsPath() {
+        return SESSION_PATH + "/build";
     }
 }

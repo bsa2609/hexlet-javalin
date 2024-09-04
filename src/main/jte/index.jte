@@ -7,6 +7,14 @@
 page = new Page(),
 content = @`
     <h2>Hello! You are on my first website.</h2>
+
+    @if(page.getCurrentUser() == null)
+        <a href="${NamedRoutes.buildSessionsPath()}">Login</a>
+    @else
+        Добро пожаловать, ${page.getCurrentUser()}.
+        Чтобы разлогиниться, удалите куку JSESSIONID из браузера
+    @endif
+
     @if(!page.isVisited())
         Это сообщение показывается только один раз. Если вы хотите увидеть его снова, сотрите куки
     @endif
