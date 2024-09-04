@@ -11,6 +11,6 @@ public class Page {
 
     public Page() {
         title = "Hexlet Javalin Example";
-        description = "testing layout";
+        description = "It's my first web app";
     }
 }

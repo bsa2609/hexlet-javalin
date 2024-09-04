@@ -1,4 +1,5 @@
 @import org.example.hexlet.dto.courses.BuildCoursePage
+@import org.example.hexlet.util.NamedRoutes
 @param BuildCoursePage page
 
 <html lang="ru">
@@ -29,7 +30,7 @@
             </ul>
         @endif
 
-        <form action="/courses" method="post">
+        <form action="${NamedRoutes.coursesPath()}" method="post">
             <div class="mb-3">
                 <label class="form-label">
                     Название
@@ -37,10 +38,8 @@
                 </label>
             </div>
             <div class="mb-3">
-                <label class="form-label">
-                    Описание
-                    <input type="text" name="description" value="${page.getDescription()}" class="form-control" />
-                </label>
+                <label for="description" class="form-label">Описание</label>
+                <textarea id="description" name="description" class="form-control">${page.getDescription()}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>

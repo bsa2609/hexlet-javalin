@@ -1,17 +1,14 @@
-<!-- Изменения HTML в шаблоне не требуют перезапуска сервера -->
-<!doctype html>
-<html lang="en">
-    <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello Hexlet!</title>
-    </head>
-    <body>
-    <div class="col-lg-8 mx-auto p-4 py-md-5">
-        <main>
-        <h1 class="text-body-emphasis">Привет, Хекслет!</h1>
-        <p>Javalin + jte</p>
-        </main>
+@import org.example.hexlet.dto.Page
+
+@template.layout.page(
+page = new Page(),
+content = @`
+    <h2>Hello! You are on my first website.</h2>
+`
+,
+footer = @`
+    <div style="border: 1px solid grey; border-radius: 5px; padding: 0; margin: 0; padding-left: 20px; margin-top: 10px; height: 30px">
+        <p style="color: grey; font-size: 1em">(c) 2024</p>
     </div>
-    </body>
-</html>
+`
+)

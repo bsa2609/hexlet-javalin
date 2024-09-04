@@ -1,17 +1,17 @@
 @import org.example.hexlet.dto.Page
 @import org.example.hexlet.dto.courses.CoursesPage
+@import org.example.hexlet.util.NamedRoutes
 @param CoursesPage coursesPage
 
 @template.layout.page(
 page = new Page(),
 content = @`
+    <div style="margin-bottom: 10px"><a href="${NamedRoutes.buildCoursePath()}">Создать курс</a></div>
 
-    <form action="/courses" method="get">
+    <form action="${NamedRoutes.coursesPath()}" method="get">
         <input type="search" name="term" value="${coursesPage.getTerm()}" />
         <input type="submit" value="Search" />
     </form>
-
-    <div><a href="courses/build">New course</a></div>
 
     <table class="table table-striped">
         <thead>
@@ -24,17 +24,18 @@ content = @`
         <tbody>
             @for(var course : coursesPage.getCourses())
                 <tr>
-                    <td>${course.getId()}</td>
-                    <td>${course.getName()}</td>
-                    <td>${course.getDescription()}</td>
+                    <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getId()}</a></td>
+                    <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getName()}</a></td>
+                    <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getDescription()}</a></td>
                 </tr>
             @endfor
         </tbody>
     </table>
-
 `
 ,
 footer = @`
-    <p>You are currently viewing the list of courses!</p>
+    <div style="border: 1px solid grey; border-radius: 5px; padding: 0; margin: 0; padding-left: 20px; margin-top: 10px; height: 30px">
+        <p style="color: grey; font-size: 1em">(c) 2024</p>
+    </div>
 `
 )

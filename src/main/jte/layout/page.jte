@@ -1,5 +1,6 @@
 @import org.example.hexlet.dto.Page
 @import gg.jte.Content
+@import org.example.hexlet.util.NamedRoutes
 
 @param Page page
 @param Content content
@@ -20,16 +21,15 @@
     <body>
         <h1>${page.getTitle()}</h1>
         <nav class="nav">
-            <a class="nav-link" href="/users">Users</a>
-            <a class="nav-link" href="/courses">Courses</a>
+            <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
+            <a class="nav-link" href="${NamedRoutes.coursesPath()}">Courses</a>
             <a class="nav-link active" aria-current="page" href="/">Main</a>
         </nav>
-
         <div class="content">
             ${content}
         </div>
         @if (footer != null)
-            <div class="footer">
+            <div class="footer" style="margin: 0; padding: 0; border: 0">
                 ${footer}
             </div>
         @endif
