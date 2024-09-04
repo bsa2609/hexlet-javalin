@@ -9,18 +9,19 @@ import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.util.NamedRoutes;
 
 public class HelloWorld {
-    public static void main(String[] args) {
-        // Создаем приложение
+    public static void createStartData() {
+        Data.createCourses();
+        Data.createUsers();
+    }
+
+    public static Javalin getApp() {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
         });
 
-        Data.createCourses();
-        Data.createUsers();
-
-        app.get("/", AppController::index);
-        app.get("/hello", AppController::hello);
+        app.get(NamedRoutes.rootPath(), AppController::index);
+        app.get(NamedRoutes.helloPath(), AppController::hello);
 
         app.get(NamedRoutes.usersPath(), UsersController::index);
         app.get(NamedRoutes.userPath("{id}"), UsersController::show);
@@ -32,6 +33,14 @@ public class HelloWorld {
         app.get(NamedRoutes.buildCoursePath(), CoursesController::build);
         app.post(NamedRoutes.coursesPath(), CoursesController::create);
 
-        app.start(7070); // Стартуем веб-сервер
+        return app;
+
+    }
+
+    public static void main(String[] args) {
+        createStartData();
+
+        var app = getApp();
+        app.start(7070);
     }
 }

@@ -5,6 +5,7 @@
 @param Page page
 @param Content content
 @param Content footer = null
+@param Content header = null
 
 <html lang="ru">
     <head>
@@ -20,11 +21,11 @@
     </head>
     <body>
         <h1>${page.getTitle()}</h1>
-        <nav class="nav">
-            <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
-            <a class="nav-link" href="${NamedRoutes.coursesPath()}">Courses</a>
-            <a class="nav-link active" aria-current="page" href="/">Main</a>
-        </nav>
+        @if (header != null)
+            <div class="header">
+                ${header}
+            </div>
+        @endif
         <div class="content">
             ${content}
         </div>

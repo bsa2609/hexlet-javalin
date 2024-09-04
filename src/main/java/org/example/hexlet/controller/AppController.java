@@ -1,10 +1,16 @@
 package org.example.hexlet.controller;
 
 import io.javalin.http.Context;
+import org.example.hexlet.dto.MainPage;
+
+import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class AppController {
     public static void index(Context ctx) {
-        ctx.render("index.jte");
+        var visited = Boolean.valueOf(ctx.cookie("visited"));
+        var page = new MainPage(visited);
+        ctx.render("index.jte", model("page", page));
+        ctx.cookie("visited", String.valueOf(true));
     }
 
     public static void hello(Context ctx) {
