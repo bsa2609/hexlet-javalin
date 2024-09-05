@@ -6,17 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.example.hexlet.model.Car;
 import org.example.hexlet.model.Course;
 
 public class CourseRepository extends BaseRepository {
-//    private static List<Course> entities = new ArrayList<Course>();
 
     public static void save(Course course) throws SQLException {
-//        course.setId((long) entities.size() + 1);
-//        course.setCreatedAt(LocalDateTime.now());
-//        entities.add(course);
-
         String sql = "INSERT INTO courses (name, description) VALUES (?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -34,12 +28,6 @@ public class CourseRepository extends BaseRepository {
     }
 
     public static List<Course> search(String term) throws SQLException {
-//        var courses = entities.stream()
-//                .filter(course -> course.getName().contains(term))
-//                .toList();
-//
-//        return courses;
-
         var courses = new ArrayList<Course>();
 
         var sql = "SELECT * FROM courses WHERE name ILIKE ?";
@@ -60,11 +48,6 @@ public class CourseRepository extends BaseRepository {
     }
 
     public static Optional<Course> find(Long id) throws SQLException {
-//        var maybeCourse = entities.stream()
-//                .filter(entity -> entity.getId() == id)
-//                .findAny();
-//        return maybeCourse;
-
         var sql = "SELECT * FROM courses WHERE id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
@@ -87,7 +70,6 @@ public class CourseRepository extends BaseRepository {
     }
 
     public static List<Course> getEntities() throws SQLException {
-//        return entities;
         var sql = "SELECT * FROM courses";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {

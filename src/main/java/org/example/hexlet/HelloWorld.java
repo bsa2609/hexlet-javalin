@@ -20,23 +20,30 @@ public class HelloWorld {
         Data.createUsers();
     }
 
-    public static Javalin getApp() throws Exception {
+    public static void createDataSource() {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
 
-        var dataSource = new HikariDataSource(hikariConfig);
+        BaseRepository.dataSource = new HikariDataSource(hikariConfig);
+
+    }
+
+    public static void createDataTables() throws Exception {
         // Получаем путь до файла в src/main/resources
         var url = HelloWorld.class.getClassLoader().getResourceAsStream("schema.sql");
         var sql = new BufferedReader(new InputStreamReader(url))
                 .lines().collect(Collectors.joining("\n"));
 
         // Получаем соединение, создаем стейтмент и выполняем запрос
-        try (var connection = dataSource.getConnection();
+        try (var connection = BaseRepository.dataSource.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
         }
-        BaseRepository.dataSource = dataSource;
+    }
 
+    public static Javalin getApp() throws Exception {
+        createDataSource();
+        createDataTables();
         createStartData();
 
         var app = Javalin.create(config -> {

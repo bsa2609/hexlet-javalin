@@ -14,14 +14,14 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 
 public class UsersController {
-    public static void index(Context ctx) {
+    public static void index(Context ctx) throws Exception {
         var users = UserRepository.getEntities();
         var page = new UsersPage(users);
         page.setCurrentPage("Users");
         ctx.render("users/index.jte", model("page", page));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws Exception {
         final Long id;
 
         try {
@@ -30,9 +30,7 @@ public class UsersController {
             throw new NotFoundResponse("User id = " + ctx.pathParam("id") + " not Long type, user not found");
         }
 
-        var user = UserRepository.getEntities().stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
+        var user = UserRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("User id = " + id + " not found"));
 
         var page = new UserPage(user);
@@ -44,7 +42,7 @@ public class UsersController {
         ctx.render("users/build.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws Exception {
         var name = ctx.formParam("name");
         var email = ctx.formParam("email");
 
@@ -57,6 +55,7 @@ public class UsersController {
             var user = new User(name, email, password);
             UserRepository.save(user);
             ctx.redirect(NamedRoutes.usersPath());
+
         } catch (ValidationException e) {
             var page = new BuildUserPage(name, email, e.getErrors());
             ctx.render("users/build.jte", model("page", page));

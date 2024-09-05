@@ -20,7 +20,7 @@ public class Data {
         CourseRepository.save(course3);
     }
 
-    public static void createUsers() {
+    public static void createUsers() throws Exception {
         List<User> users = new ArrayList<>();
 
         User user1 = new User("Ivan Ivanov", "ivan@mail.ru", "123");
