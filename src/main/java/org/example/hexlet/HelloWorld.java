@@ -22,7 +22,12 @@ public class HelloWorld {
 
     public static void createDataSource() {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
+        String value = System.getenv("JDBC_DATABASE_URL");
+        if (value == null) {
+            hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
+        } else {
+            hikariConfig.setJdbcUrl(value);
+        }
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
 
