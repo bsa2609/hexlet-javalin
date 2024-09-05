@@ -14,9 +14,9 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
-WORKDIR /hexlet-javalin
+WORKDIR /app
 
-COPY /hexlet-javalin .
+COPY /app .
 
 RUN gradle installDist
 
