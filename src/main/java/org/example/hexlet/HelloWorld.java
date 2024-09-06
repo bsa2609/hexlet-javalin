@@ -20,33 +20,31 @@ public class HelloWorld {
         Data.createUsers();
     }
 
+    public static int getPort() {
+        String port = System.getenv().getOrDefault("PORT", "7070");
+        return Integer.valueOf(port);
+    }
+
+    public static String getDataBaseUrl() {
+        return System.getenv().getOrDefault(
+                "JDBC_DATABASE_URL",
+                "jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;"
+        );
+    }
+
     public static void createDataSource() {
         var hikariConfig = new HikariConfig();
-        String value = System.getenv("JDBC_DATABASE_URL");
-        if (value == null) {
-            hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
-        } else {
-            String connectstring = value
-                    .replace("${HOST}", System.getenv("HOST"))
-                    .replace("${DB_PORT}", System.getenv("DB_PORT"))
-                    .replace("${DATABASE}", System.getenv("DATABASE"))
-                    .replace("${PASSWORD}", System.getenv("PASSWORD"))
-                    .replace("${USERNAME}", System.getenv("USERNAME"));
-
-            hikariConfig.setJdbcUrl(connectstring);
-        }
+        hikariConfig.setJdbcUrl(getDataBaseUrl());
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
 
     }
 
     public static void createDataTables() throws Exception {
-        // Получаем путь до файла в src/main/resources
         var url = HelloWorld.class.getClassLoader().getResourceAsStream("schema.sql");
         var sql = new BufferedReader(new InputStreamReader(url))
                 .lines().collect(Collectors.joining("\n"));
 
-        // Получаем соединение, создаем стейтмент и выполняем запрос
         try (var connection = BaseRepository.dataSource.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
@@ -90,6 +88,6 @@ public class HelloWorld {
 
     public static void main(String[] args) throws Exception {
         var app = getApp();
-        app.start(7070);
+        app.start(getPort());
     }
 }
