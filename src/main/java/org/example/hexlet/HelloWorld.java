@@ -45,6 +45,10 @@ public class HelloWorld {
         var sql = new BufferedReader(new InputStreamReader(url))
                 .lines().collect(Collectors.joining("\n"));
 
+        if (System.getenv("JDBC_DATABASE_URL") != null) {
+            sql = sql.replaceAll("AUTO_INCREMENT", "GENERATED ALWAYS AS IDENTITY");
+        }
+
         try (var connection = BaseRepository.dataSource.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
