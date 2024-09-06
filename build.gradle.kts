@@ -9,6 +9,7 @@ plugins {
 
 application {
     mainClass.set("org.example.hexlet.HelloWorld")
+    applicationName = "app"
 }
 
 group = "org.example"
