@@ -26,7 +26,7 @@ public class HelloWorld {
         if (value == null) {
             hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
         } else {
-            hikariConfig.setJdbcUrl(value);
+            hikariConfig.setJdbcUrl("jdbc:postgresql://${HOST}:${DB_PORT}/${DATABASE}?password=${PASSWORD}&user=${USERNAME}");
         }
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
