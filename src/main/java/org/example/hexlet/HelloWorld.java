@@ -26,7 +26,14 @@ public class HelloWorld {
         if (value == null) {
             hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
         } else {
-            hikariConfig.setJdbcUrl("jdbc:postgresql://${HOST}:${DB_PORT}/${DATABASE}?password=${PASSWORD}&user=${USERNAME}");
+            String connectstring = value
+                    .replace("${HOST}", System.getenv("HOST"))
+                    .replace("${DB_PORT}", System.getenv("DB_PORT"))
+                    .replace("${DATABASE}", System.getenv("DATABASE"))
+                    .replace("${PASSWORD}", System.getenv("PASSWORD"))
+                    .replace("${USERNAME}", System.getenv("USERNAME"));
+
+            hikariConfig.setJdbcUrl(connectstring);
         }
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
