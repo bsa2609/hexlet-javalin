@@ -13,11 +13,11 @@ public class UserRepository extends BaseRepository {
     public static void save(User user) throws SQLException {
         String sql =
                 """
-                INSERT INTO users (
+                INSERT INTO users_javalin (
                     name,
                     email,
                     password,
-                    createdAt
+                    created_at
                 )
                 VALUES(?, ?, ?, ?);
                 """;
@@ -47,8 +47,8 @@ public class UserRepository extends BaseRepository {
                     name,
                     email,
                     password,
-                    createdAt
-                FROM users
+                    created_at
+                FROM users_javalin
                 WHERE
                     name ILIKE ?
                 """;
@@ -64,7 +64,7 @@ public class UserRepository extends BaseRepository {
                 );
 
                 user.setId(resultSet.getLong("id"));
-                user.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+                user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
                 users.add(user);
             }
@@ -81,8 +81,8 @@ public class UserRepository extends BaseRepository {
                     name,
                     email,
                     password,
-                    createdAt
-                FROM users
+                    created_at
+                FROM users_javalin
                 WHERE
                     id = ?
                 """;
@@ -98,7 +98,7 @@ public class UserRepository extends BaseRepository {
                 );
 
                 user.setId(resultSet.getLong("id"));
-                user.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+                user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
                 return Optional.of(user);
             }
@@ -121,8 +121,8 @@ public class UserRepository extends BaseRepository {
                     name,
                     email,
                     password,
-                    createdAt
-                FROM users
+                    created_at
+                FROM users_javalin
                 """;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
@@ -135,7 +135,7 @@ public class UserRepository extends BaseRepository {
                 );
 
                 user.setId(resultSet.getLong("id"));
-                user.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+                user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
                 users.add(user);
             }

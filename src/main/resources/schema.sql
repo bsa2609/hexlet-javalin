@@ -16,10 +16,12 @@ CREATE TABLE cars (
 
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE users (
+DROP TABLE IF EXISTS users_javalin;
+
+CREATE TABLE users_javalin (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    createdAt TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL
 );
