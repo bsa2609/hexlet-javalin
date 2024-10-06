@@ -14,8 +14,6 @@ CREATE TABLE cars (
     model VARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS users;
-
 DROP TABLE IF EXISTS users_javalin;
 
 CREATE TABLE users_javalin (
